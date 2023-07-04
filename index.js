@@ -1,5 +1,5 @@
-const inquirer = require('inquirer');
-const= {MainMenuQuestions,AddDepartmentQuestions,AddRoleQuestions,AddEmployeeQuestions,UpdateEmployeeRoleQuestions };
+const inquirer = require ('inquirer');
+const  {MainMenuQuestions,AddDepartmentQuestions,AddRoleQuestions,AddEmployeeQuestions,UpdateEmployeeRoleQuestions } = ('./questions.js');
 const EmployeeDatabase = require('./db/EmployeeDatabase');
 
 
@@ -11,3 +11,8 @@ database: 'employee_db'
 });
 
 db.coonect();
+if (db.coonect()){
+    console.log("connected succefully");
+}else {
+    console.log("not connected")
+}
