@@ -7,7 +7,7 @@ class Database {
    }
    validate () {
 
-    const (host, user, password, database) = this.options;
+    const {host, user, password, database} = this.options;
     if (!host || !user || !password || !database)
     throw new Error('Configuration is invalid');
 
