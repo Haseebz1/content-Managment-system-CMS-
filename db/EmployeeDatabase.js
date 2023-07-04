@@ -20,10 +20,10 @@ class EmployeeDatabase extends Database {
     getRoles() {
 
         return new Promise((resolve, reject)  => {
-            this.db.query(`SELECT roles.id, roles.title, CONCAT('£', FORMAT(salary,0), 'p/a') as salary ,department.name as department_name FROM role INNER JOIN Department ON role.department_id = Department.id`. (err, results) => {
+            this.db.query(`SELECT roles.id, roles.title, CONCAT('£', FORMAT(salary,0), 'p/a') as salary ,department.name as department_name FROM role INNER JOIN Department ON role.department_id = Department.id`,(err, results) => {
                 if(err) {
                     reject(err);
-                },
+                }
                 resolve(results);
             });
         });
@@ -111,7 +111,7 @@ class EmployeeDatabase extends Database {
                 }
                 resolve(results);
             });
-        });
+        };
     }
 
-
+module.exports = new EmployeeDatabase
