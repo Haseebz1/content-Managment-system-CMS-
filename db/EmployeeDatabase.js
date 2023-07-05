@@ -114,4 +114,4 @@ class EmployeeDatabase extends Database {
         };
     }
 
-module.exports = new EmployeeDatabase
+module.exports = EmployeeDatabase

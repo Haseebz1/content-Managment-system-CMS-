@@ -1,16 +1,16 @@
-const inquirer = require ('inquirer');
+const inquirer = require('inquirer');
 const  {MainMenuQuestions,AddDepartmentQuestions,AddRoleQuestions,AddEmployeeQuestions,UpdateEmployeeRoleQuestions } = ('./questions.js');
-const EmployeeDatabase = require('/db/EmployeeDatabase.js');
+const db = require('./db/EmployeeDatabase.js');
 
 
-const db = new EmployeeDatabase({
-    host: 'localhost',
-    user: 'root',
-    password: 'Letmein123',
-    database:'employee_db',
-});
+// const db = new EmployeeDatabase({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'Letmein123',
+//     database:'employee_db',
+// });
 
-db.connoct();
+// db.connect();
 
 const doMenuQuestions = () => {
 
@@ -118,7 +118,7 @@ const add_employee = () => {
     })
 
 }
-    db.getEmployees().then((results) => {
+    db.getEmployee().then((results) => {
         const managerQuestion = AddEmployeeQuestions[3];
         results.forEach((employee) => {
             managerQuestion.choices.push({
