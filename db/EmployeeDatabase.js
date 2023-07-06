@@ -1,8 +1,8 @@
-const Database = require('./database.js');
+const connection = require('./database.js');
 
-class EmployeeDatabase extends Database {
-    constructor(options) {
-        super(options);
+class EmployeeDatabase {
+    constructor(connection) {
+        this.connection = connection;
     }
 
     getDepartments() {
@@ -76,14 +76,13 @@ class EmployeeDatabase extends Database {
                 department_id: role.department_id
             };
 
-            return new Promise((resolve, reject) => {
-                this.db. query('INSERT INTO role SET ?', roleData, (err, results) => {
+            return this.connection.promise().query('INSERT INTO role SET ?', roleData, (err, results) => {
                     if(err) {
                         reject(err);
                     }
                     resolve(`role ${role.title} added successfully`);
                 });
-            });
+            
         }
 
         addEmployee(employee) {
@@ -114,4 +113,4 @@ class EmployeeDatabase extends Database {
         };
     }
 
-module.exports = EmployeeDatabase
+module.exports = new EmployeeDatabase(connection)

@@ -6,7 +6,7 @@ const db = require('./db/EmployeeDatabase.js');
 // const db = new EmployeeDatabase({
 //     host: 'localhost',
 //     user: 'root',
-//     password: 'Letmein123',
+//     password: '',
 //     database:'employee_db',
 // });
 
