@@ -4,31 +4,38 @@ const MainMenuQuestions = [
     name: "option",
     message: "what would you like to do?",
     choices: [
-      { value: "view_departments", name: "view all departments" },
-      { value: "view_roles", name: "view all roles" },
-      { value: "view_employees", name: "view all employees" },
-      { value: "add_department", name: "add a department" },
-      { value: "add_role", name: "add a role" },
-      { value: "add_employee", name: "add an employee" },
-      { value: "update_role", name: "update an employee role" },
+      "view all departments",
+      "view all roles",
+      "view all employees",
+      "add a department",
+      "add a role",
+      "add an employee",
+      "update an employee role",
     ],
   },
 ];
 
 const AddDepartmentQuestions = [
   {
-    type: "input",
-    name: "department_name",
+    type: "text",
+    name: "department",
     message: "Enter name of new department",
+    validate: function (input) {
+      return validateAns(input, "Please enter in a department")
+    }
   },
 ];
 
 const AddRoleQuestions = [
   {
-    type: "input",
-    name: "title",
+    type: "text",
+    name: "roleName",
     message: "Enter Title of new role",
+    validate: function (input) {
+      return validateAns(input, "Plese Enter in a Role name");
+    },
   },
+
   {
     type: "number",
     name: "salary",
@@ -48,17 +55,20 @@ const AddRoleQuestions = [
 
 const AddEmployeeQuestions = [
   {
-    type: "input",
+    type: "text",
     name: "first_name",
     messages: "Enter the first Name of Employee",
+    validate: function (input) {
+      return validateAns(input, "Please put in a name");
+    },
   },
   {
-    type: "input",
+    type: "text",
     name: "last_name",
     messages: "Enter the last name of employee",
   },
   {
-    type: "list",
+    type: "text",
     name: "role_id",
     messages: "Select the tole for the employee",
     choices: [],
@@ -67,7 +77,7 @@ const AddEmployeeQuestions = [
     type: "list",
     name: "manager_id",
     messages: "select the Employee's Manager",
-    choice: [],
+    choice: ["None"],
   },
 ];
 
@@ -75,9 +85,11 @@ const UpdateEmployeeRoleQuestions = [
   {
     type: "list",
     name: "role_id",
-    messages: "Select the tole for the employee",
+    messages: "Select the role for the employee",
     choices: [],
   },
+]
+const updateEmployeeManagerQuestion = [
   {
     type: "list",
     name: "employee_id",
@@ -86,4 +98,11 @@ const UpdateEmployeeRoleQuestions = [
   },
 ];
 
-module.exports = {MainMenuQuestions,AddDepartmentQuestions,AddRoleQuestions,AddEmployeeQuestions,UpdateEmployeeRoleQuestions }
+module.exports = {
+  MainMenuQuestions,
+  AddDepartmentQuestions,
+  AddRoleQuestions,
+  AddEmployeeQuestions,
+  UpdateEmployeeRoleQuestions,
+  updateEmployeeManagerQuestion
+};

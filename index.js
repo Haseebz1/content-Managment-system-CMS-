@@ -3,12 +3,12 @@ const  {MainMenuQuestions,AddDepartmentQuestions,AddRoleQuestions,AddEmployeeQue
 const db = require('./db/EmployeeDatabase.js');
 
 
-// const db = new EmployeeDatabase({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database:'employee_db',
-// });
+const db = new EmployeeDatabase({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database:'employee_db',
+});
 
 // db.connect();
 
