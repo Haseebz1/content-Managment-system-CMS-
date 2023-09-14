@@ -153,7 +153,47 @@ class EmployeeDatabase extends Database {
               );
             });
           }
+          
+          getEmployeeID(name) {
+            return new Promise((resolve, reject) => {
+              if (name === "None") resolve("None");
+              const splitName = name.split(" ");
+              let query = "";
+              if (!splitName[1]) {
+                query = "last_name is NULL";
+              } else {
+                query = `last_name = "${splitName[1]}"`;
+              }
+        
+              this.db.query(
+                `SELECT id FROM employee
+                WHERE first_name = "${splitName[0]}" and ${query};`,
+                (err, results) => {
+                  if (err) {
+                    reject(err);
+                  }
+                  resolve(results);
+                }
+              );
+            });
+          }
+        
+          getRoleID(roleName) {
+            return new Promise((resolve, reject) => {
+              this.db.query(
+                `SELECT id from role
+                WHERE title = "${roleName}";`,
+                (err, results) => {
+                  if (err) {
+                    reject(err);
+                  }
+                  resolve(results);
+                }
+              );
+            });
+          }
+        }
         
 
-        }
+        
 module.exports = EmployeeDatabase;
