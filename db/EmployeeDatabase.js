@@ -51,11 +51,11 @@ class EmployeeDatabase extends Database {
         });
     }
 
-    addDepartment(name) {
+    addDepartment(departmentName) {
 
         return new Promise((resolve, reject) => {
             this.db.query( `INSERT INTO department(name)
-            VALUE("${name}");`,
+            VALUE("${departmentName}");`,
              (err, results) => {
                 if(err) {
                     reject(err);
@@ -153,7 +153,7 @@ class EmployeeDatabase extends Database {
               );
             });
           }
-          
+
           getEmployeeID(name) {
             return new Promise((resolve, reject) => {
               if (name === "None") resolve("None");
