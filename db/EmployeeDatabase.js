@@ -1,8 +1,8 @@
-const connection = require('./database.js');
+const Database = require('./database.js');
 
-class EmployeeDatabase {
-    constructor(connection) {
-        this.connection = connection;
+class EmployeeDatabase extends Database {
+    constructor(options) {
+        super(options);
     }
 
     getDepartments() {
@@ -20,7 +20,9 @@ class EmployeeDatabase {
     getRoles() {
 
         return new Promise((resolve, reject)  => {
-            this.db.query(`SELECT roles.id, roles.title, CONCAT('£', FORMAT(salary,0), 'p/a') as salary ,department.name as department_name FROM role INNER JOIN Department ON role.department_id = Department.id`,(err, results) => {
+            this.db.query( `SELECT role.id,role.title, department.name as role_department, role.salary FROM role
+            INNER JOIN department ON role.department_id = department.id;`,
+            (err, results) => {
                 if(err) {
                     reject(err);
                 }
@@ -34,18 +36,12 @@ class EmployeeDatabase {
 
         return new Promise((resolve, reject) => {
             this.db.query(
-                ` SELECT
-                employee.id,
-                CONCAT(employee.first_name, '', employee.last_name) as name,
-                role.title as role_title,
-                role.salary as role_rolesalary,
-                department.name as department_name,
-                IF(CONCAT(manager.first_name, '',manager.last_name) IS NULL , '', CONCAT(manager,first_name, '',)
-                
-                FROM employee
-                INNER JOIN role ON employee.role_id = role.id
-                INNER JOIN department ON role.department_id = department.id
-                LEFT JOIN employee as manager ON employee.manager_id = manager.id`,
+                `SELECT employee.id,employee.first_name,COALESCE(employee.last_name,"") as last_name,role.title as job_title,department.name as department,role.salary as salary, CONCAT(COALESCE(managers.first_name,"")," ",COALESCE(managers.last_name,"")) as manager FROM employee
+        INNER JOIN role ON employee.role_id = role.id
+        INNER JOIN department ON role.department_id = department.id
+        LEFT JOIN employee AS managers ON employee.manager_id = managers.id
+        ORDER BY employee.id;
+        `,
                 (err, results) => {
                     if (err) {
                         reject(err);
@@ -55,10 +51,12 @@ class EmployeeDatabase {
         });
     }
 
-    addDepartment(department) {
+    addDepartment(name) {
 
         return new Promise((resolve, reject) => {
-            this.db.query('INSERT INTO department SET ?',  {name: department.department_name }, (err, results) => {
+            this.db.query( `INSERT INTO department(name)
+            VALUE("${name}");`,
+             (err, results) => {
                 if(err) {
                     reject(err);
                 }
@@ -69,31 +67,35 @@ class EmployeeDatabase {
                 
         }
 
-        addRole(role) {
-            const roleData = {
-                title: role.title,
-                salary: role.salary,
-                department_id: role.department_id
-            };
-
-            return this.connection.promise().query('INSERT INTO role SET ?', roleData, (err, results) => {
+        addRole(roleOptions) {
+            const { role, salary, department } = roleOptions;
+            return new Promise((resolve, reject) => {
+              this.db.query(
+                `INSERT INTO role(title,salary,department_id)
+            VALUE("${role}",${salary},${department})`,
+            (err, results) => {
                     if(err) {
                         reject(err);
                     }
-                    resolve(`role ${role.title} added successfully`);
-                });
+                    resolve(`
+                    Added ${role} to database
+                    `);
+                }
+                );
+              });
+            }
             
-        }
+        
 
         addEmployee(employee) {
-            const employeeData = {
-                first_name: employee.first_name,
-                last_name: employee.last_name,
-                role_id: employee.manager_id,
-            };
+            const { firstName, lastName, managerId, roleId } = employeeOptions;
 
             return new promise ((resolve, reject) => {
-                this.db.query('INSERT INTO employee SET?', employeeData, (err, results) => {
+                this.db.query(   `INSERT INTO employee(first_name,last_name,role_id,manager_id)
+                VALUE("${firstName}","${lastName}",${roleId},${
+                      isNaN(managerId) ? "NULL" : managerId
+                    })`,
+                (err, results) => {
                   if(err) {
                     reject(err);
                   }  
@@ -104,13 +106,39 @@ class EmployeeDatabase {
         updateEmployeeRole(employee) {
 
             return new promise((resolve, reject) => {
-                this.db.query('UPDATE employee SET role_id=? WHERE id=?', [employee.role_id, employee.employeee_id], (err, results) )
+                this.db.query(
+                    `UPDATE employee
+                    SET role_id = ${roleID}
+                    WHERE id = ${employeeID};`,
+                    function (err, results) {
                 if(err) {
                     reject(err);
                 }
-                resolve(results);
+                resolve(`
+                Updated Employee
+                `);
+              }
+            );
+          });
+        }
+        updateEmployeeManager(employeeID, managerID) {
+            return new Promise((resolve, reject) => {
+              this.db.query(
+                `UPDATE employee
+              SET manager_id = ${managerID}
+              WHERE id = ${employeeID};`,
+                function (err, results) {
+                  if (err) {
+                    reject(err);
+                  }
+                  resolve(`
+                Updated Manager
+                `);
+                }
+              );
             });
-        };
-    }
+          }
+       
 
-module.exports = new EmployeeDatabase(connection)
+        }
+module.exports = EmployeeDatabase;
