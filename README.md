@@ -49,7 +49,7 @@ https://github.com/Haseebz1/content-Managment-system-CMS-.git
 
 ## video walk through link
 
-https://drive.google.com/file/d/1ME1mfGn4NKV-zSzkaLgjK_nGf7LaNfQ4/view
+https://drive.google.com/file/d/1YoFcQ6nUX2-4udputtpEZJW-bnGp6tTs/view
 
 
 
