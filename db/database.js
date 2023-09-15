@@ -14,7 +14,7 @@ class Database {
       database: database,
     });
 
-      console.log(`connecter to employee database,`)
+      console.log(`connected to employee database,`)
     
   }
   disconnect() {

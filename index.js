@@ -159,4 +159,16 @@ const update_role = () => {
   });
 };
 
-doMenuQuestions();
+function onInit() {
+  console.log("Welcome to the Employee Tracker");
+
+  // validate and open the database connection
+  db.validate();
+
+  // Load the quesions and start the main menu
+  doMenuQuestions();
+}
+
+onInit();
+
+
