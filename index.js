@@ -6,21 +6,17 @@ const {
   UpdateEmployeeRoleQuestions,
   AddDepartmentsQuestions,
 } = "./questions.js";
-const db = require("./db/EmployeeDatabase.js");
+
+const EmployeeDatabase = require("./db/EmployeeDatabase.js");
 
 const db = new EmployeeDatabase({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "Memine81",
   database: "employee_db",
 });
 
-function init() {
-    db.connect();
-    doMenuQuestions();
-  }
-  init();
-  
+
 
 const doMenuQuestions = () => {
   inquirer.prompt(MainMenuQuestions).then((response) => {
@@ -53,21 +49,21 @@ const doMenuQuestions = () => {
 const view_departments = () => {
   db.getdepartments().then((response) => {
     console.table(response);
-    doMenuQuestions;
+    doMenuQuestions();
   });
 };
 
 const view_roles = () => {
   db.getRoles().then((response) => {
     console.table(response);
-    doMenuQuestions;
+    doMenuQuestions();
   });
 };
 
 const view_employees = () => {
   db.getemployees().then((response) => {
     console.table(response);
-    doMenuQuestions;
+    doMenuQuestions();
   });
 };
 
@@ -93,7 +89,7 @@ const add_role = () => {
     inquirer.prompt(AddRoleQuestions).then((response) => {
       db.addRole(response).then((results) => {
         console.log("\n", results);
-        doMenuQuestions;
+        doMenuQuestions();
       });
     });
   });
@@ -140,7 +136,7 @@ const update_role = () => {
       employeeQuestion.choicee.push({
         value: employee.id,
         name: employee,
-        name,
+        name: `${employee.first_name} ${employee.last_name}`,
       });
     });
 
