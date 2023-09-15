@@ -5,7 +5,7 @@ const {
   AddEmployeeQuestions,
   UpdateEmployeeRoleQuestions,
   AddDepartmentsQuestions,
-} = "./questions.js";
+} = require("./questions.js");
 
 const EmployeeDatabase = require("./db/EmployeeDatabase.js");
 
